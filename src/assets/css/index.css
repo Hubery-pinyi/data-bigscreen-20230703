@@ -1,0 +1,65 @@
+/* 删除默认的行内边距 */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* html{ */
+/* -webkit-text-size-adjust: 100%; */
+/* -ms-text-size-adjust: 100%; */
+/* font-size: 62.5%; */
+/* } */
+body,
+input,
+button,
+a,
+textarea,
+select {
+  margin: 0;
+  font-family: "Helvetica Neue", Helvetica, "Hiragino Sans GB";
+  font-size: 1.4rem;
+  line-height: 1.5;
+  color: #333;
+}
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+}
+
+a {
+  text-decoration: none;
+}
+
+a:hover,
+a:focus {
+  text-decoration: none;
+}
+
+a:hover {
+  filter: alpha(opacity=90);
+  opacity: .9;
+}
+
+/* 文本对齐 */
+.tc {
+  text-align: center;
+}
+
+.tr {
+  text-align: right;
+}
+
+.tl {
+  text-align: left;
+}
+
+#index {
+  width: 100%;
+  height: 100%;
+  background: url('../images/bj@2x.png') no-repeat center center;
+  background-size: cover;
+}
