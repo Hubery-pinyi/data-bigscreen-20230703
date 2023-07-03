@@ -216,6 +216,9 @@ export default {
     const that = this
     this.getAllData()
     setInterval(() => {
+      const yesDate = new Date().getTime() - 24 * 60 * 60 * 1000
+      this.yesterdayDate = moment(yesDate).format('yyyy-MM-DD')
+      this.value1 = yesDate
       that.getAllData()
     }, 3600 * 1000)
   },
