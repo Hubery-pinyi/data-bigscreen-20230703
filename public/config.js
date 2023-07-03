@@ -1,5 +1,5 @@
 const PublicConfig = {}
 
-PublicConfig.env = 'dev'
+PublicConfig.env = 'product'
 
 exports = PublicConfig

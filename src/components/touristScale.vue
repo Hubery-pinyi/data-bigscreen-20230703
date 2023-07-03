@@ -87,6 +87,7 @@ export default {
     }
   },
   created () {
+
   },
   mounted () {
     this.initSalePie()
@@ -95,13 +96,16 @@ export default {
   methods: {
     // 一销二销饼图
     initSalePie () {
+      console.log(this.sale1Revenue, this.sale2Revenue, '一笑二小')
       const saleOneAngle = +(this.sale1Revenue / (this.sale1Revenue + this.sale2Revenue)) * 360
+
       const context = document.getElementById('onsale_pie').getContext('2d')
+
       // 蓝色外1
       context.moveTo(71, 71)
       context.arc(71, 71, 71, Math.PI / 180 * 0, Math.PI / 180 * saleOneAngle, false)
       context.closePath()
-      context.fillStyle = 'rgba(2, 216, 216, .2)'
+      context.fillStyle = 'rgba(2, 216, 216, 1)'
       context.fill()
 
       // 蓝色外2
@@ -165,7 +169,7 @@ export default {
       context.moveTo(71, 71)
       context.arc(71, 71, 71, Math.PI / 180 * 0, Math.PI / 180 * saleOneAngle, false)
       context.closePath()
-      context.fillStyle = 'rgba(2, 216, 216, .2)'
+      context.fillStyle = 'rgba(2, 216, 216, 1)'
       context.fill()
       // 蓝色外2
       context.beginPath()

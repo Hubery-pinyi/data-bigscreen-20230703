@@ -1,9 +1,9 @@
 <template>
   <div class="weather_box">
-    <div class="date_addr">
-      <div>{{ date }}</div>
-      <div>常州市金坛区</div>
-    </div>
+    <!-- <div class="date_addr"> -->
+      <!-- <div>{{ date }}</div> -->
+      <!-- <div>常州市金坛区</div> -->
+    <!-- </div> -->
     <div class="temp_PM">
       <div class="tempture">
         <div class="temp_name">温度</div>
@@ -94,10 +94,10 @@ export default {
       type: String,
       default: '常州市金坛区'
     },
-    date: {
-      type: String,
-      default: '2023-5-25'
-    },
+    // date: {
+    // type: String,
+    // default: '2023-5-25'
+    // },
     weather: {
       type: String,
       default: '晴'
