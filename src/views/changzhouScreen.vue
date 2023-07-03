@@ -7,7 +7,7 @@
           <div class="total_data">
             <subTitle subTitle="数据总览"></subTitle>
             <revenueCom :totalRevenue="yearRevenueAmount" :totalPercent="+yearDiffRate" :monthRevenue="monthRevenueAmount"
-              :monthPercent="monthDiffRate" :dailyRevenue="dayRevenueAmount" :dailyPercent="dayDiffRate"></revenueCom>
+              :monthPercent="+monthDiffRate" :dailyRevenue="dayRevenueAmount" :dailyPercent="+dayDiffRate"></revenueCom>
           </div>
           <div class="asys_data">
             <subTitle subTitle="数据分析"></subTitle>
@@ -68,7 +68,7 @@
             <subTitle subTitle="天气情况"></subTitle>
             <div class="date_addr">
               <div>
-                <el-date-picker v-model="value1" type="date" placeholder="选择日期" clearable="true" @change="chooseDate"> </el-date-picker>
+                <el-date-picker v-model="value1" type="date" placeholder="选择日期" @change="chooseDate"> </el-date-picker>
               </div>
               <div>常州市金坛区</div>
             </div>
@@ -149,7 +149,7 @@ export default {
       monthDiffRate: 0, // 当月营收上涨率
       dayRevenueAmount: '0', // 当日营收
       dayDiffRate: 0, // 当日营收上涨率
-      dayPersonCount: 0, // 日人流量
+      dayPersonCount: '', // 日人流量
       // 景区售票人数
       sanke: 0,
       kapiao: 0,
@@ -235,7 +235,7 @@ export default {
       getTotalData(2, this.yesterdayDate)
         .then(res => {
           if (res) {
-            // console.log(res, '常州数据总览')
+            console.log(res, '常州数据总览')
             this.yearRevenueAmount = res.yearRevenueAmount
             this.yearDiffRate = res.yearDiffRate
             this.monthRevenueAmount = res.monthRevenueAmount

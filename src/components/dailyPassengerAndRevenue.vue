@@ -12,8 +12,8 @@ export default {
   name: 'dailyPassengerAndRevenue',
   props: {
     dailyNumber: {
-      type: Number,
-      default: 0
+      type: String,
+      default: ''
     },
     dailyFont: {
       type: String,

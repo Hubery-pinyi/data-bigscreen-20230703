@@ -96,7 +96,6 @@ export default {
   methods: {
     // 一销二销饼图
     initSalePie () {
-      console.log(this.sale1Revenue, this.sale2Revenue, '一笑二小')
       const saleOneAngle = +(this.sale1Revenue / (this.sale1Revenue + this.sale2Revenue)) * 360
 
       const context = document.getElementById('onsale_pie').getContext('2d')
