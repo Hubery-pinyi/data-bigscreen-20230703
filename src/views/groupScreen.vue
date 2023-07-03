@@ -42,7 +42,7 @@
           <div class="passengers_number">
             <subTitle subTitle="游客规模"></subTitle>
             <div class="passengers_number_pies">
-              <touristScale :sale1Revenue="scaleRevenueOne" :sale2Revenue="scaleRevenueTwo" :offlineRevenue="outLine" :onlineRevenue="online" :totalsaleCount="totalsaleCount" :totalLine="totalLine" ></touristScale>
+              <touristScale :sale1Revenue="scaleRevenueOne" :sale2Revenue="scaleRevenueTwo" :offlineRevenue="outLine" :onlineRevenue="online" :totalsaleCount="totalsaleCount" :totalLine="totalLine"></touristScale>
             </div>
           </div>
         </div>
@@ -51,11 +51,17 @@
       <template v-slot:content_main_right>
         <div class="weather_box">
           <subTitle subTitle="天气情况"></subTitle>
-          <groupWeather :date="yesterdayDate" address="浙江省杭州市" :tempture="temperature" :weatherType="weatherCondition" :aqi="AQI" :PM25="PM25" :wetness="humidity" :temptureMax="temperatureMax" :temptureMIn="temperatureMin"></groupWeather>
+          <div class="date_add">
+            <div>
+              <el-date-picker v-model="value1" type="date" placeholder="选择日期" clearable="true" @change="chooseDate"> </el-date-picker>
+            </div>
+            <div>浙江省杭州市</div>
+          </div>
+          <groupWeather :tempture="temperature" :weatherType="weatherCondition" :aqi="AQI" :PM25="PM25" :wetness="humidity" :temptureMax="temperatureMax" :temptureMIn="temperatureMin"></groupWeather>
         </div>
         <div class="sales_box">
           <subTitle subTitle="渠道销售统计"></subTitle>
-          <salesCount :salesWayName="areaNames" :salesWayData="areaDatas" :gridLeft_channel="gridLeft_channel" :gridRight_channel="gridRight_channel" :gridWidth_channel="gridWidth_channel" :yAxislabelMargin_channel="yAxislabelMargin_channel" :seriesLabelOffset_channel="seriesLabelOffset_channel"  ></salesCount>
+          <salesCount :salesWayName="areaNames" :salesWayData="areaDatas" :gridLeft_channel="gridLeft_channel" :gridRight_channel="gridRight_channel" :gridWidth_channel="gridWidth_channel" :yAxislabelMargin_channel="yAxislabelMargin_channel" :seriesLabelOffset_channel="seriesLabelOffset_channel"></salesCount>
         </div>
         <div class="hotel_box">
           <subTitle subTitle="酒店数据"></subTitle>
@@ -86,10 +92,22 @@ import { removeAccessToken, removeAccessTokenExpiredTime } from '../utils/auth'
 export default {
   name: 'groupScreen',
   components: {
-    myLayout, totalData, subTitle, passagerAndRevenue, barOfArea, dailyPassengerAndRevenue, groupMap, ticketNumberPie, touristScale, salesCount, hotelData, groupWeather
+    myLayout,
+    totalData,
+    subTitle,
+    passagerAndRevenue,
+    barOfArea,
+    dailyPassengerAndRevenue,
+    groupMap,
+    ticketNumberPie,
+    touristScale,
+    salesCount,
+    hotelData,
+    groupWeather
   },
   data () {
     return {
+      value1: '',
       // 数据分析
       hotelNameArray: [],
       // hotelNameArray: [],
@@ -164,6 +182,7 @@ export default {
     const yesDate = new Date().getTime() - 24 * 60 * 60 * 1000
     this.yesterdayDate = moment(yesDate).format('yyyy-MM-DD')
     const curDate = new Date().getTime()
+    this.value1 = moment(yesDate).format('yyyy-MM-DD')
     this.currentDate = moment(curDate).format('YYYY-MM-DD HH:mm:ss')
     const that = this
     this.getAllData()
@@ -173,7 +192,6 @@ export default {
   },
   mounted () {
     // console.log(this.hotelNameArray, 'mounted')
-
   },
   methods: {
     getAllData () {
@@ -188,148 +206,177 @@ export default {
     },
     // 获取数据总览
     getGrouPTotalData () {
-      getTotalData(0, this.yesterdayDate).then(res => {
-        if (res) {
-          console.log(res, '数据总览')
-          this.yearRevenueAmount = res.yearRevenueAmount
-          this.yearDiffRate = res.yearDiffRate
-          this.monthRevenueAmount = res.monthRevenueAmount
-          this.monthDiffRate = res.monthDiffRate
-          this.dayRevenueAmount = res.dayRevenueAmount
-          this.dayDiffRate = res.dayDiffRate
-          this.dayPersonCount = res.dayPersonCount
-        }
-      }).catch(err => {
-        console.log(err)
-      })
+      getTotalData(0, this.yesterdayDate)
+        .then(res => {
+          if (res) {
+            console.log(res, '数据总览')
+            this.yearRevenueAmount = res.yearRevenueAmount
+            this.yearDiffRate = res.yearDiffRate
+            this.monthRevenueAmount = res.monthRevenueAmount
+            this.monthDiffRate = res.monthDiffRate
+            this.dayRevenueAmount = res.dayRevenueAmount
+            this.dayDiffRate = res.dayDiffRate
+            this.dayPersonCount = res.dayPersonCount
+          }
+        })
+        .catch(err => {
+          console.log(err)
+        })
     },
     // 获取数据分析数据-----------------------------------------------------------
     getGroupAnalyData () {
-      getAnalyData(0, this.yesterdayDate).then(res => {
-        if (res) {
-          // console.log(res, '数据分析')
-          this.hotelNameArray = []
-          this.flowData = []
-          this.revenueData = []
-          res.forEach(item => {
-            this.hotelNameArray.push(item.companyName)
-            this.flowData.push(item.dayCount)
-            this.revenueData.push(Math.floor(item.dayRevenue))
-          })
-        }
-      }).catch(err => {
-        console.log(err)
-      })
+      getAnalyData(0, this.yesterdayDate)
+        .then(res => {
+          if (res) {
+            // console.log(res, '数据分析')
+            this.hotelNameArray = []
+            this.flowData = []
+            this.revenueData = []
+            res.forEach(item => {
+              this.hotelNameArray.push(item.companyName)
+              this.flowData.push(item.dayCount)
+              this.revenueData.push(Math.floor(item.dayRevenue))
+            })
+          }
+        })
+        .catch(err => {
+          console.log(err)
+        })
     },
     // 城市游客排行(左上)
     getGroupPassengersData () {
-      getPassengersData(0, this.yesterdayDate).then(res => {
-        // console.log(res, '城市游客排行')
-        if (res) {
-          res.forEach(item => {
-            this.cityNames.push(item.cityName)
-            this.cityDatas.push(item.carCount)
-          })
-          console.log(this.cityNames, this.cityDatas)
-        }
-      }).catch(err => {
-        console.log(err)
-      })
+      this.cityNames = []
+      this.cityData = []
+      getPassengersData(0, this.yesterdayDate)
+        .then(res => {
+          // console.log(res, '城市游客排行')
+          if (res) {
+            res.forEach(item => {
+              this.cityNames.push(item.cityName)
+              this.cityDatas.push(item.carCount)
+            })
+            console.log(this.cityNames, this.cityDatas)
+          }
+        })
+        .catch(err => {
+          console.log(err)
+        })
     },
     // 景区售票人数
     getGroupTicketsrsData () {
-      getTicketsrsData(0, this.yesterdayDate).then(res => {
-        if (res) {
-          console.log(res, '景区售票人数')
-          this.sanke = res.fitGroupCount
-          this.kapiao = res.exchangeCount
-          this.wangluo = res.internetCount
-          this.canyinzhusu = res.stayCount
-          this.allTicketNumbers = res.totalCount
-          this.groupCountRate = res.fitGroupCountRate
-          this.interCountRate = res.internetCountRate
-          this.stayCountRate = res.stayCountRate
-          this.exCountrate = res.exchangeCountRate
-        }
-      }).catch(err => {
-        console.log(err)
-      })
+      getTicketsrsData(0, this.yesterdayDate)
+        .then(res => {
+          if (res) {
+            console.log(res, '景区售票人数')
+            this.sanke = res.fitGroupCount
+            this.kapiao = res.exchangeCount
+            this.wangluo = res.internetCount
+            this.canyinzhusu = res.stayCount
+            this.allTicketNumbers = res.totalCount
+            this.groupCountRate = res.fitGroupCountRate
+            this.interCountRate = res.internetCountRate
+            this.stayCountRate = res.stayCountRate
+            this.exCountrate = res.exchangeCountRate
+          }
+        })
+        .catch(err => {
+          console.log(err)
+        })
     },
     // 游客规模
     getGroupTouristsData () {
-      getTouristsData(0, this.yesterdayDate).then(res => {
-        if (res) {
-          console.log(res, '集团游客规模')
-          this.scaleRevenueOne = res.sale1Revenue
-          this.scaleRevenueTwo = res.sale2Revenue
-          this.outLine = res.offlineRevenue
-          this.online = res.onlineRevenue
-          this.totalsaleCount = res.totalSaleRevenue
-          this.totalLine = res.totalLineRevenue
-        }
-      }).catch(err => {
-        console.log(err)
-      })
+      getTouristsData(0, this.yesterdayDate)
+        .then(res => {
+          if (res) {
+            console.log(res, '集团游客规模')
+            this.scaleRevenueOne = res.sale1Revenue
+            this.scaleRevenueTwo = res.sale2Revenue
+            this.outLine = res.offlineRevenue
+            this.online = res.onlineRevenue
+            this.totalsaleCount = res.totalSaleRevenue
+            this.totalLine = res.totalLineRevenue
+          }
+        })
+        .catch(err => {
+          console.log(err)
+        })
     },
     // 渠道销售统计
     getGroupChannelData () {
-      getChannelData(0, this.yesterdayDate).then(res => {
-        if (res) {
-          // console.log(res, '集团渠道销售统计')
-          this.areaNames = []
-          this.areaDatas = []
-          res.forEach(item => {
-            this.areaNames.push(item.channelName)
-            this.areaDatas.push(Math.floor(item.revenue))
-          })
-          // console.log(this.areaNames, this.areaDatas)
-        }
-      }).catch(err => {
-        console.log(err)
-      })
+      getChannelData(0, this.yesterdayDate)
+        .then(res => {
+          if (res) {
+            // console.log(res, '集团渠道销售统计')
+            this.areaNames = []
+            this.areaDatas = []
+            res.forEach(item => {
+              this.areaNames.push(item.channelName)
+              this.areaDatas.push(Math.floor(item.revenue))
+            })
+            // console.log(this.areaNames, this.areaDatas)
+          }
+        })
+        .catch(err => {
+          console.log(err)
+        })
     },
     // 酒店数据
     getGroupHotelData () {
-      getHotelData(0, this.yesterdayDate).then(res => {
-        if (res) {
-          console.log(res, '酒店数据')
-          this.canyinData = res.cateringAmount
-          this.kefangData = res.roomAmount
-          this.qitaData = res.otherAmount
-          this.totalRevenue = res.totalAmount
-          this.canyinRate = res.cateringAmountRate
-          this.kefangRate = res.roomAmountRate
-          this.qitaRate = res.otherAmountRate
-        }
-        console.log(this.qitaRate)
-        console.log(this.canyinData)
-      }).catch(err => {
-        console.log(err)
-      })
+      getHotelData(0, this.yesterdayDate)
+        .then(res => {
+          if (res) {
+            console.log(res, '酒店数据')
+            this.canyinData = res.cateringAmount
+            this.kefangData = res.roomAmount
+            this.qitaData = res.otherAmount
+            this.totalRevenue = res.totalAmount
+            this.canyinRate = res.cateringAmountRate
+            this.kefangRate = res.roomAmountRate
+            this.qitaRate = res.otherAmountRate
+          }
+          console.log(this.qitaRate)
+          console.log(this.canyinData)
+        })
+        .catch(err => {
+          console.log(err)
+        })
     },
     // 获取当前天气
     getWeather () {
-      getGoodWeather('安吉').then(res => {
-        if (res) {
-          // console.log(res.heWeather5[0], '集团天气')
-          this.temperature = res.heWeather5[0].now.tmp
-          this.weatherCondition = res.heWeather5[0].now.cond.txt
-          this.temperatureMax = res.heWeather5[0].daily_forecast[0].tmp.max
-          this.temperatureMin = res.heWeather5[0].daily_forecast[0].tmp.min
-          this.AQI = res.heWeather5[0].aqi.city.aqi
-          this.PM25 = res.heWeather5[0].aqi.city.pm25
-          this.humidity = res.heWeather5[0].now.hum
-        }
-      }).then(err => {
-        console.log(err)
-      })
+      getGoodWeather('安吉')
+        .then(res => {
+          if (res) {
+            // console.log(res.heWeather5[0], '集团天气')
+            this.temperature = res.heWeather5[0].now.tmp
+            this.weatherCondition = res.heWeather5[0].now.cond.txt
+            this.temperatureMax = res.heWeather5[0].daily_forecast[0].tmp.max
+            this.temperatureMin = res.heWeather5[0].daily_forecast[0].tmp.min
+            this.AQI = res.heWeather5[0].aqi.city.aqi
+            this.PM25 = res.heWeather5[0].aqi.city.pm25
+            this.humidity = res.heWeather5[0].now.hum
+          }
+        })
+        .then(err => {
+          console.log(err)
+        })
+    },
+    chooseDate (e) {
+      const choosedTime = moment(e.getTime()).format('yyyy-MM-DD')
+      this.yesterdayDate = choosedTime
+      this.getAllData()
     }
   }
-
 }
 </script>
 
 <style lang="less" scoped>
+ .date_add {
+   display: flex;
+   justify-content: space-between;
+   font-size: 14px;
+   margin-top: 20px;
+   color: rgba(255, 255, 255, .6);
+ }
 .threeTable_box {
   display: flex;
   justify-content: flex-start;
@@ -381,7 +428,6 @@ export default {
   .passengers_number {
     flex: 5;
   }
-
 }
 .weather_box {
   width: 100%;

@@ -314,12 +314,6 @@ export default {
     },
     // 游客规模
     getGroupTouristsData () {
-      this.scaleRevenueOne = 0
-      this.scaleRevenueTwo = 0
-      this.outLine = 0
-      this.online = 0
-      this.totalsaleCount = 0
-      this.totalLine = 0
       getTouristsData(2, this.yesterdayDate)
         .then(res => {
           if (res) {

@@ -1,9 +1,9 @@
 <template>
   <div class="weather_box">
-    <div class="date_add">
-      <div>{{ date }}</div>
-      <div>{{ address }}</div>
-    </div>
+    <!-- <div class="date_add"> -->
+      <!-- <div>{{ date }}</div> -->
+      <!-- <div>{{ address }}</div> -->
+    <!-- </div> -->
     <div class="weather_detail">
       <div class="weather_icon">
         <img v-if="weatherType === '晴'" src="../assets/images/weather/晴天@2x.png" alt="">
