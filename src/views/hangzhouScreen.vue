@@ -55,7 +55,7 @@
           <div class="weather_box">
             <subTitle subTitle="天气情况"></subTitle>
             <div class="date_add">
-              <el-date-picker v-model="value1" type="date" placeholder="选择日期" clearable="true" @change="chooseDate"> </el-date-picker>
+              <el-date-picker v-model="value1" type="date" placeholder="选择日期" @change="chooseDate"> </el-date-picker>
               <div>湖州市安吉县</div>
             </div>
             <weather :tempture="temperature" :weatherType="weatherCondition" :aqi="AQI" :PM25="PM25" :wetness="humidity" :temptureMax="temperatureMax" :temptureMIn="temperatureMin"></weather>
@@ -136,7 +136,7 @@ export default {
       monthDiffRate: 0, // 当月营收上涨率
       dayRevenueAmount: '0', // 当日营收
       dayDiffRate: 0, // 当日营收上涨率
-      dayPersonCount: 0, // 日人流量
+      dayPersonCount: '0', // 日人流量
       // 景区售票人数
       sanke: 0,
       kapiao: 0,
@@ -196,12 +196,23 @@ export default {
     this.value1 = moment(yesDate).format('yyyy-MM-DD')
     const that = this
     this.getAllData()
+    // 10:00-11:00 或者 20:00-21:00之间每隔五分钟更新一次
     setInterval(() => {
-      const yesDate = new Date().getTime() - 24 * 60 * 60 * 1000
-      this.yesterdayDate = moment(yesDate).format('yyyy-MM-DD')
-      this.value1 = yesDate
-      that.getAllData()
-    }, 3600 * 1000)
+      // 获取当前系统时间
+      const refresHours = new Date().getHours()
+      console.log(refresHours, '刷新的时间')
+      if (refresHours >= 10 && refresHours < 11) {
+        const yesDate = new Date().getTime() - 24 * 60 * 60 * 1000
+        this.yesterdayDate = moment(yesDate).format('yyyy-MM-DD')
+        this.value1 = yesDate
+        that.getAllData()
+      } else if (refresHours >= 20 && refresHours < 21) {
+        const yesDate = new Date().getTime() - 24 * 60 * 60 * 1000
+        this.yesterdayDate = moment(yesDate).format('yyyy-MM-DD')
+        this.value1 = yesDate
+        that.getAllData()
+      }
+    }, 300 * 1000)
   },
   methods: {
     getAllData () {
@@ -372,6 +383,12 @@ export default {
       const choosedTime = moment(e.getTime()).format('yyyy-MM-DD')
       this.yesterdayDate = choosedTime
       this.getAllData()
+      setTimeout(() => {
+        const yesDate = new Date().getTime() - 24 * 60 * 60 * 1000
+        this.yesterdayDate = moment(yesDate).format('yyyy-MM-DD')
+        this.value1 = yesDate
+        this.getAllData()
+      }, 60 * 1000)
     }
   }
 }
@@ -501,6 +518,7 @@ export default {
   }
 }
 </style>
+
 <style lang="less">
 .el-input__inner{
   outline: none;

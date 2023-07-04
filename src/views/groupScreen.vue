@@ -185,11 +185,21 @@ export default {
     const that = this
     this.getAllData()
     setInterval(() => {
-      const yesDate = new Date().getTime() - 24 * 60 * 60 * 1000
-      this.yesterdayDate = moment(yesDate).format('yyyy-MM-DD')
-      this.value1 = yesDate
-      that.getAllData()
-    }, 3600 * 1000)
+      // 获取当前系统时间
+      const refresHours = new Date().getHours()
+      console.log(refresHours, '刷新的时间')
+      if (refresHours >= 10 && refresHours < 11) {
+        const yesDate = new Date().getTime() - 24 * 60 * 60 * 1000
+        this.yesterdayDate = moment(yesDate).format('yyyy-MM-DD')
+        this.value1 = yesDate
+        that.getAllData()
+      } else if (refresHours >= 20 && refresHours < 21) {
+        const yesDate = new Date().getTime() - 24 * 60 * 60 * 1000
+        this.yesterdayDate = moment(yesDate).format('yyyy-MM-DD')
+        this.value1 = yesDate
+        that.getAllData()
+      }
+    }, 300 * 1000)
   },
   mounted () {
     // console.log(this.hotelNameArray, 'mounted')
@@ -365,11 +375,70 @@ export default {
       const choosedTime = moment(e.getTime()).format('yyyy-MM-DD')
       this.yesterdayDate = choosedTime
       this.getAllData()
+      setTimeout(() => {
+        const yesDate = new Date().getTime() - 24 * 60 * 60 * 1000
+        this.yesterdayDate = moment(yesDate).format('yyyy-MM-DD')
+        this.value1 = yesDate
+        this.getAllData()
+      }, 60 * 1000)
     }
   }
 }
 </script>
+<style lang="less">
+.date_add{
 
+.el-input__inner{
+  outline: none;
+  box-shadow: none;
+  color: rgba(255, 255, 255, .6);
+  height: 20px;
+  background-color:rgba(255, 255, 255, .0);
+  border: 1px solid rgba(255, 255, 255, .0);
+  line-height: 30px;
+  padding: 0;
+}
+
+.el-input__icon{
+  line-height: 20px;
+}
+.el-picker-panel{
+  background-color:rgba(14, 19, 35, .9) ;
+  color: rgba(255, 255, 255, 1) ;
+  border: 1px dashed #E4E7ED;
+}
+.el-date-table td.today span {
+    color: rgba(0, 218, 216, 1);
+    font-weight: 700;
+}
+.el-date-table td.today span:hover {
+    color: rgba(0, 218, 216, 1);
+    font-weight: 700;
+}
+.el-date-table td.current:not(.disabled) span {
+    color: #FFF;
+    background-color:  rgba(0, 218, 216, 1);
+}
+.el-date-picker__header-label.active, .el-date-picker__header-label{
+  color: rgba(255, 255, 255, 1);
+}
+.el-date-table td.available:hover {
+    color: rgba(0, 218, 216, 1);
+}
+.el-date-picker__header-label.active, .el-date-picker__header-label:hover {
+    color: rgba(0, 218, 216, 1);
+}
+.el-picker-panel__icon-btn{
+  color: rgba(255, 255, 255, 1);
+}
+.el-picker-panel__icon-btn:hover {
+    color: rgba(0, 218, 216, 1);
+}
+.el-date-table th{
+  color: rgba(255, 255, 255, 1);
+}
+}
+</style>
 <style lang="less" scoped>
  .date_add {
    display: flex;
@@ -443,56 +512,5 @@ export default {
 .hotel_box {
   width: 100%;
   height: 268px;
-}
-</style>
-<style lang="less">
-.el-input__inner{
-  outline: none;
-  box-shadow: none;
-  color: rgba(255, 255, 255, .6);
-  height: 20px;
-  background-color:rgba(255, 255, 255, .0);
-  border: 1px solid rgba(255, 255, 255, .0);
-  line-height: 30px;
-  padding: 0;
-}
-
-.el-input__icon{
-  line-height: 20px;
-}
-.el-picker-panel{
-  background-color:rgba(14, 19, 35, .9) ;
-  color: rgba(255, 255, 255, 1) ;
-  border: 1px dashed #E4E7ED;
-}
-.el-date-table td.today span {
-    color: rgba(0, 218, 216, 1);
-    font-weight: 700;
-}
-.el-date-table td.today span:hover {
-    color: rgba(0, 218, 216, 1);
-    font-weight: 700;
-}
-.el-date-table td.current:not(.disabled) span {
-    color: #FFF;
-    background-color:  rgba(0, 218, 216, 1);
-}
-.el-date-picker__header-label.active, .el-date-picker__header-label{
-  color: rgba(255, 255, 255, 1);
-}
-.el-date-table td.available:hover {
-    color: rgba(0, 218, 216, 1);
-}
-.el-date-picker__header-label.active, .el-date-picker__header-label:hover {
-    color: rgba(0, 218, 216, 1);
-}
-.el-picker-panel__icon-btn{
-  color: rgba(255, 255, 255, 1);
-}
-.el-picker-panel__icon-btn:hover {
-    color: rgba(0, 218, 216, 1);
-}
-.el-date-table th{
-  color: rgba(255, 255, 255, 1);
 }
 </style>

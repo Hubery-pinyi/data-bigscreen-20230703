@@ -216,10 +216,19 @@ export default {
     const that = this
     this.getAllData()
     setInterval(() => {
-      const yesDate = new Date().getTime() - 24 * 60 * 60 * 1000
-      this.yesterdayDate = moment(yesDate).format('yyyy-MM-DD')
-      this.value1 = yesDate
-      that.getAllData()
+      const refresHours = new Date().getHours()
+      console.log(refresHours, '刷新的时间')
+      if (refresHours >= 10 && refresHours < 11) {
+        const yesDate = new Date().getTime() - 24 * 60 * 60 * 1000
+        this.yesterdayDate = moment(yesDate).format('yyyy-MM-DD')
+        this.value1 = yesDate
+        that.getAllData()
+      } else if (refresHours >= 20 && refresHours < 21) {
+        const yesDate = new Date().getTime() - 24 * 60 * 60 * 1000
+        this.yesterdayDate = moment(yesDate).format('yyyy-MM-DD')
+        this.value1 = yesDate
+        that.getAllData()
+      }
     }, 3600 * 1000)
   },
   methods: {
@@ -397,6 +406,12 @@ export default {
       const choosedTime = moment(e.getTime()).format('yyyy-MM-DD')
       this.yesterdayDate = choosedTime
       this.getAllData()
+      setTimeout(() => {
+        const yesDate = new Date().getTime() - 24 * 60 * 60 * 1000
+        this.yesterdayDate = moment(yesDate).format('yyyy-MM-DD')
+        this.value1 = yesDate
+        this.getAllData()
+      }, 60 * 1000)
     }
   }
 }
