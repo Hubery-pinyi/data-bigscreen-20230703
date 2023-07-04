@@ -198,20 +198,26 @@ export default {
     this.getAllData()
     // 10:00-11:00 或者 20:00-21:00之间每隔五分钟更新一次
     setInterval(() => {
-      // 获取当前系统时间
-      const refresHours = new Date().getHours()
-      console.log(refresHours, '刷新的时间')
-      if (refresHours >= 10 && refresHours < 11) {
-        const yesDate = new Date().getTime() - 24 * 60 * 60 * 1000
-        this.yesterdayDate = moment(yesDate).format('yyyy-MM-DD')
-        this.value1 = yesDate
-        that.getAllData()
-      } else if (refresHours >= 20 && refresHours < 21) {
+      if (this.isTimeBetween('10:00', '10:05') || this.isTimeBetween('13:00', '13:05') || this.isTimeBetween('20:00', '20:05')) {
         const yesDate = new Date().getTime() - 24 * 60 * 60 * 1000
         this.yesterdayDate = moment(yesDate).format('yyyy-MM-DD')
         this.value1 = yesDate
         that.getAllData()
       }
+      // 获取当前系统时间
+      // const refresHours = new Date().getHours()
+      // console.log(refresHours, '刷新的时间')
+      // if (refresHours >= 10 && refresHours < 11) {
+      // const yesDate = new Date().getTime() - 24 * 60 * 60 * 1000
+      // this.yesterdayDate = moment(yesDate).format('yyyy-MM-DD')
+      // this.value1 = yesDate
+      // that.getAllData()
+      // } else if (refresHours >= 20 && refresHours < 21) {
+      // const yesDate = new Date().getTime() - 24 * 60 * 60 * 1000
+      // this.yesterdayDate = moment(yesDate).format('yyyy-MM-DD')
+      // this.value1 = yesDate
+      // that.getAllData()
+      // }
     }, 300 * 1000)
   },
   methods: {
@@ -389,6 +395,12 @@ export default {
         this.value1 = yesDate
         this.getAllData()
       }, 60 * 1000)
+    },
+    isTimeBetween (timeStart, timeEnd) {
+      const now = new Date()
+      const start = new Date(now.getFullYear(), now.getMonth(), now.getDate(), timeStart.split(':')[0], timeStart.split(':')[1])
+      const end = new Date(now.getFullYear(), now.getMonth(), now.getDate(), timeEnd.split(':')[0], timeEnd.split(':')[1])
+      return start <= now && end >= now
     }
   }
 }
