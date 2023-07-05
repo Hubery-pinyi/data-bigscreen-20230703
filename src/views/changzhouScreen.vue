@@ -593,4 +593,20 @@ export default {
 .el-date-table th{
   color: rgba(255, 255, 255, 1);
 }
+.el-input__icon .el-icon-date{
+  display: none;
+}
+.el-input__suffix-inner{
+  display: none;
+}
+.el-input--prefix .el-input__inner {
+   padding-left: 0;
+   cursor: pointer;
+ }
+.el-icon-date:before {
+    content: "";
+}
+.el-icon-date:after {
+    content: "";
+}
 </style>
