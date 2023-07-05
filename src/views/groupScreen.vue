@@ -52,7 +52,7 @@
         <div class="weather_box">
           <subTitle subTitle="天气情况"></subTitle>
           <div class="date_add">
-              <el-date-picker v-model="value1" type="date" placeholder="选择日期" clearable="true" @change="chooseDate"> </el-date-picker>
+              <el-date-picker v-model="value1" type="date" placeholder="选择日期" @change="chooseDate"> </el-date-picker>
             <div>浙江省杭州市</div>
           </div>
           <groupWeather :tempture="temperature" :weatherType="weatherCondition" :aqi="AQI" :PM25="PM25" :wetness="humidity" :temptureMax="temperatureMax" :temptureMIn="temperatureMin"></groupWeather>
